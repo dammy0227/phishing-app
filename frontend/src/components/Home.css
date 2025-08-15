@@ -33,21 +33,21 @@
 }
 
 .hero button {
-  padding: 14px 28px;
-  font-size: 1.1rem;
+  padding: 12px 24px; /* smaller padding */
+  font-size: 1rem;    /* slightly smaller font */
   background: white;
   color: #4e89ff;
   border: none;
   border-radius: 8px;
   cursor: pointer;
   transition: all 0.3s ease;
+  width: fit-content;
 }
 
 .hero button:hover {
   background: #f4f6f8;
   transform: scale(1.05);
 }
-
 /* How It Works Section */
 .how-it-works {
   padding: 60px 20px;
