@@ -1,8 +1,14 @@
 import axios from "axios";
 
-const API_BASE = "http://localhost:5000/api";
+// Use your Render backend URL
+const API_BASE = "https://phishing-app-74g2.onrender.com/api";
 
 export const checkUrl = async (url) => {
-  const res = await axios.post(`${API_BASE}/predict`, { url });
-  return res.data;
+  try {
+    const res = await axios.post(`${API_BASE}/predict`, { url });
+    return res.data;
+  } catch (error) {
+    console.error("Error checking URL:", error);
+    return null;
+  }
 };
