@@ -1,0 +1,144 @@
+/* General Container */
+.home-container {
+  font-family: Arial, sans-serif;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  scroll-behavior: smooth;
+  overflow-x: hidden;
+}
+
+/* Hero Section */
+.hero {
+  text-align: center;
+  padding: 80px 20px;
+  background: linear-gradient(135deg, #4e89ff, #6fc3ff);
+  color: white;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.hero h1 {
+  font-size: 3rem;
+  margin-bottom: 16px;
+}
+
+.hero p {
+  font-size: 1.3rem;
+  margin-bottom: 30px;
+  max-width: 600px;
+}
+
+.hero button {
+  padding: 14px 28px;
+  font-size: 1.1rem;
+  background: white;
+  color: #4e89ff;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.hero button:hover {
+  background: #f4f6f8;
+  transform: scale(1.05);
+}
+
+/* How It Works Section */
+.how-it-works {
+  padding: 60px 20px;
+  text-align: center;
+  background: #f9f9f9;
+}
+
+.how-it-works h2 {
+  font-size: 2rem;
+  margin-bottom: 40px;
+}
+
+.steps {
+  display: flex;
+  justify-content: center;
+  gap: 40px;
+  flex-wrap: wrap;
+}
+
+.steps div {
+  background: #ffffff;
+  padding: 24px 16px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  width: 220px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.steps div:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.15);
+}
+
+.steps div span {
+  font-size: 2rem;
+  display: block;
+  margin-bottom: 12px;
+}
+
+/* Footer */
+footer {
+  text-align: center;
+  padding: 30px 20px;
+  background: #f4f6f8;
+  margin-top: auto;
+}
+
+footer p {
+  line-height: 1.6;
+  max-width: 700px;
+  margin: 0 auto;
+  font-size: 0.95rem;
+  color: #333;
+}
+
+/* Mobile Responsiveness */
+@media (max-width: 768px) {
+  .hero h1 {
+    font-size: 2rem;
+  }
+
+  .hero p {
+    font-size: 1rem;
+  }
+
+  .hero button {
+    padding: 12px 24px;
+    font-size: 1rem;
+  }
+
+  .steps {
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+  }
+
+  .steps div {
+    width: 90%;
+  }
+}
+
+@media (max-width: 480px) {
+  .hero h1 {
+    font-size: 1.8rem;
+  }
+
+  .hero p {
+    font-size: 0.95rem;
+  }
+
+  .steps div {
+    padding: 18px 12px;
+  }
+}
