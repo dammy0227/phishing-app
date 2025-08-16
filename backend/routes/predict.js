@@ -10,12 +10,12 @@ router.post("/", async (req, res) => {
     const { url } = req.body;
     if (!url) return res.status(400).json({ error: "URL is required" });
 
-    const { label, confidence } = await predictPhishing(url);
+    const { label, confidence, reason } = await predictPhishing(url);
 
     // Save to MongoDB
-    await UrlCheck.create({ url, label, confidence });
+    await UrlCheck.create({ url, label, confidence, reason });
 
-    res.json({ url, label, confidence });
+    res.json({ url, label, confidence, reason });
   } catch (err) {
     res.status(500).json({ error: err.message || "Prediction failed" });
   }
