@@ -9,10 +9,14 @@ connectDB();
 
 const app = express();
 app.use(cors({
-  origin: "https://phishing-app-beta.vercel.app", // your frontend URL
+  origin: [
+    "https://phishing-app-beta.vercel.app", // production
+    "http://localhost:5173"                 // local dev
+  ],
   methods: ["GET", "POST"],
   credentials: true,
 }));
+
 
 app.use(express.json());
 
