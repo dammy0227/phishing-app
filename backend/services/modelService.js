@@ -1,4 +1,3 @@
-// services/modelService.js
 import { InferenceClient } from "@huggingface/inference";
 import validator from "validator";
 import { URL } from "url";
@@ -39,7 +38,7 @@ function containsSuspiciousUnicode(domain) {
 // ✅ Trusted extensions
 const trustedExtensions = [".gov.ng", ".edu.ng", ".mil.ng", ".org.ng"];
 
-// ✅ Trusted banks
+// ✅ Trusted banks / services
 const trustedBanks = [
   "accessbankplc.com", "gtbank.com", "gtcoplc.com",
   "firstbanknigeria.com", "fbnquest.com", "zenithbank.com",
@@ -50,6 +49,25 @@ const trustedBanks = [
   "ecobank.com", "afrilandfirstbank.com", "jaizbankplc.com"
 ];
 
+// ✅ Trusted global platforms
+const trustedServices = [
+  "paypal.com",
+  "amazon.com",
+  "google.com",
+  "microsoft.com",
+  "stripe.com",
+  "facebook.com",
+  "apple.com"
+];
+
+// ✅ Trusted full URLs (including paths)
+const trustedUrls = [
+  "https://www.paypal.com/login",
+  "https://www.paypal.com/signin",
+  "https://www.amazon.com/ap/signin",
+  "https://accounts.google.com/signin"
+];
+
 export async function predictPhishing(url) {
   if (!validator.isURL(url, { require_protocol: true })) {
     throw new Error("Invalid URL format");
@@ -57,21 +75,32 @@ export async function predictPhishing(url) {
 
   const parsedUrl = new URL(url);
   const domain = parsedUrl.hostname.toLowerCase();
+  const fullUrl = parsedUrl.href.toLowerCase();
 
-  // 🛡 Step 1: Exact whitelist check
+  // 🛡 Step 1: Trusted extensions
   if (trustedExtensions.some(ext => domain.endsWith(ext))) {
     return { label: "legitimate", confidence: 1, reason: "Trusted extension" };
   }
+
+  // 🛡 Step 2: Trusted domains
   if (trustedBanks.includes(domain)) {
-    return { label: "legitimate", confidence: 1, reason: "Exact trusted domain" };
+    return { label: "legitimate", confidence: 1, reason: "Exact trusted bank domain" };
+  }
+  if (trustedServices.includes(domain)) {
+    return { label: "legitimate", confidence: 1, reason: "Trusted global service" };
   }
 
-  // 🛑 Step 2: Homograph check
+  // 🛡 Step 3: Trusted full URLs
+  if (trustedUrls.includes(fullUrl)) {
+    return { label: "legitimate", confidence: 1, reason: "Trusted URL path" };
+  }
+
+  // 🛑 Step 4: Homograph check
   if (containsSuspiciousUnicode(domain)) {
     return { label: "phishing", confidence: 0.99, reason: "Suspicious Unicode in domain" };
   }
 
-  // 🛑 Step 3: Lookalike detection
+  // 🛑 Step 5: Lookalike detection
   for (let trusted of trustedBanks) {
     const distance = levenshtein(domain, trusted);
     if (distance <= 2) {
@@ -79,7 +108,7 @@ export async function predictPhishing(url) {
     }
   }
 
-  // 🤖 Step 4: Hugging Face AI fallback
+  // 🤖 Step 6: AI fallback
   const result = await hf.textClassification({
     model: "ealvaradob/bert-finetuned-phishing",
     inputs: url

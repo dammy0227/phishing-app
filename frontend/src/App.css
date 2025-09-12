@@ -4,21 +4,140 @@
   margin: 0;
 }
 
-.app-container{
-  height: 100vh;
-  width: 100vw;
+/* ===== Global Styles ===== */
+body {
+  font-family: Arial, Helvetica, sans-serif;
+  background-color: #f4f6f9;
+  margin: 0;
+  padding: 0;
+  color: #333;
 }
 
-.app-wrapper{
+h1, h2, h3 {
+  margin-bottom: 10px;
+}
+
+h1 {
+  text-align: center;
+  color: #2c3e50;
+}
+
+h2 {
+  margin-top: 30px;
+  color: #34495e;
+}
+
+/* ===== App Container ===== */
+.app-container {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+/* ===== Forms ===== */
+form {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  height: 75%;
-  
+  margin-bottom: 20px;
 }
 
-.app-header{
-  color: lightskyblue;
-  font-size: 20px;
+input[type="text"],
+textarea {
+  padding: 10px;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 16px;
+  transition: border 0.2s;
+}
+
+input[type="text"]:focus,
+textarea:focus {
+  border-color: #4caf50;
+  outline: none;
+}
+
+button {
+  padding: 10px 15px;
+  border: none;
+  border-radius: 6px;
+  background: #6fc3ff;
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+button:hover {
+  background: #6fc3ff;
+}
+
+/* ===== Progress Bar ===== */
+.progress-bar-container {
+  width: 100%;
+  background: #ddd;
+  border-radius: 10px;
+  margin: 15px 0;
+  height: 22px;
+  overflow: hidden;
+}
+
+.progress-bar-fill {
+  height: 100%;
+   background: linear-gradient(135deg, #4e89ff, #6fc3ff);
+  border-radius: 10px;
+  transition: width 0.4s ease-in-out;
+}
+
+/* ===== Result Card ===== */
+.result-card {
+  padding: 15px;
+  border-radius: 8px;
+  margin-bottom: 15px;
+  background: white;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  transition: transform 0.2s;
+}
+
+.result-card:hover {
+  transform: scale(1.02);
+}
+
+.result-card.phishing {
+  border: 2px solid red;
+}
+
+.result-card.legitimate {
+  border: 2px solid #6fc3ff;
+}
+
+.result-card h3 {
+  margin-top: 0;
+}
+
+.result-card ul {
+  margin: 5px 0 0 20px;
+}
+
+/* ===== Recent Checks ===== */
+.recent-checks {
+  margin-top: 30px;
+}
+
+.recent-checks h2 {
+  margin-bottom: 15px;
+}
+
+/* ===== Stats Dashboard ===== */
+.stats-dashboard {
+  margin-top: 30px;
+  padding: 15px;
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+
+.stats-dashboard p {
+  margin: 8px 0;
+  font-size: 16px;
 }
