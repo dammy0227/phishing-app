@@ -1,8 +1,8 @@
 import axios from "axios";
 
 // Use your Render backend URL
-// const API_BASE = "https://phishing-app-74g2.onrender.com/api";
-const API_BASE = "http://localhost:5000/api";
+const API_BASE = "https://phishing-app-74g2.onrender.com/api";
+// const API_BASE = "http://localhost:5000/api";
 
 
 export const checkUrl = async (url) => {
