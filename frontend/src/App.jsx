@@ -1,3 +1,5 @@
+// src/App.jsx
+import { useState, useEffect } from "react";
 import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
 import UrlInput from "./components/UrlInput";
 import ResultCard from "./components/ResultCard";
@@ -8,9 +10,9 @@ import StatsDashboard from "./components/StatsDashboard";
 import Home from "./components/Home";
 import { checkUrl, checkBatch } from "./services/api";
 import './App.css';
-import { useState, useEffect } from "react";
 
-export default function App() {
+// Main App component for "/app" route
+function MainApp() {
   const [result, setResult] = useState(null);
   const [batchResults, setBatchResults] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -58,40 +60,51 @@ export default function App() {
     }
   };
 
-  // Optional: auto-redirect if user already started
+  return (
+    <div className="app-container" style={{ maxWidth: "800px", margin: "0 auto", padding: "20px" }}>
+      <h1>Phishing URL Checker</h1>
+
+      <h2>Single URL Check</h2>
+      <UrlInput onCheck={handleCheck} />
+      {loading && <ProgressBar progress={progress} />}
+      <ResultCard result={result} />
+
+      <h2>Batch URL Check</h2>
+      <BatchUpload onBatchCheck={handleBatchCheck} />
+      {loading && <ProgressBar progress={progress} />}
+      {batchResults.map((r, idx) => <ResultCard key={idx} result={r} />)}
+
+      <RecentChecks />
+      <StatsDashboard />
+    </div>
+  );
+}
+
+export default function App() {
   const [started, setStarted] = useState(false);
+  const [loaded, setLoaded] = useState(false);
+
+  // Load "started" from localStorage
   useEffect(() => {
     const saved = localStorage.getItem("started") === "true";
-    if (saved) setStarted(true);
+    setStarted(saved);
+    setLoaded(true);
   }, []);
+
+  if (!loaded) return null; // wait until localStorage is loaded
 
   return (
     <Router>
       <Routes>
+        {/* Home page */}
         <Route path="/" element={started ? <Navigate to="/app" replace /> : <Home />} />
-        <Route
-          path="/app"
-          element={
-            <div className="app-container" style={{ maxWidth: "800px", margin: "0 auto", padding: "20px" }}>
-              <h1>Phishing URL Checker</h1>
-              <h2>Single URL Check</h2>
-              <UrlInput onCheck={handleCheck} />
-              {loading && <ProgressBar progress={progress} />}
-              <ResultCard result={result} />
 
-              <h2>Batch URL Check</h2>
-              <BatchUpload onBatchCheck={handleBatchCheck} />
-              {loading && <ProgressBar progress={progress} />}
-              {batchResults.map((r, idx) => <ResultCard key={idx} result={r} />)}
+        {/* Main App */}
+        <Route path="/app" element={<MainApp />} />
 
-              <RecentChecks />
-              <StatsDashboard />
-            </div>
-          }
-        />
+        {/* Redirect unknown routes to Home */}
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </Router>
   );
 }
- 
