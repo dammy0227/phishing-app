@@ -1,30 +1,22 @@
-import { useState, useEffect } from "react";
+import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
+import { useState } from "react";
 import UrlInput from "./components/UrlInput";
 import ResultCard from "./components/ResultCard";
 import BatchUpload from "./components/BatchUpload";
 import ProgressBar from "./components/ProgressBar";
 import RecentChecks from "./components/RecentChecks";
 import StatsDashboard from "./components/StatsDashboard";
-import { checkUrl, checkBatch } from "./services/api";
 import Home from "./components/Home";
+import { checkUrl, checkBatch } from "./services/api";
 import "./App.css";
 
-export default function App() {
-  // -------- State --------
+/* ---------- Main App Page ("/app") ---------- */
+function MainApp() {
   const [result, setResult] = useState(null);
   const [batchResults, setBatchResults] = useState([]);
   const [loading, setLoading] = useState(false);
   const [progress, setProgress] = useState(0);
-  const [started, setStarted] = useState(
-    () => localStorage.getItem("started") === "true"
-  );
 
-  // Persist the “started” flag
-  useEffect(() => {
-    localStorage.setItem("started", started);
-  }, [started]);
-
-  // -------- Helpers --------
   const simulateProgress = async (steps = 4) => {
     const increment = 100 / steps;
     for (let i = 1; i <= steps; i++) {
@@ -67,12 +59,6 @@ export default function App() {
     }
   };
 
-  // -------- Conditional render --------
-  if (!started) {
-    return <Home onStart={() => setStarted(true)} />;
-  }
-
-  // -------- Main App UI --------
   return (
     <div className="app-container" style={{ maxWidth: 800, margin: "0 auto", padding: 20 }}>
       <h1>Phishing URL Checker</h1>
@@ -92,5 +78,21 @@ export default function App() {
       <RecentChecks />
       <StatsDashboard />
     </div>
+  );
+}
+
+/* ---------- App Router ---------- */
+export default function App() {
+  return (
+    <Router>
+      <Routes>
+        {/* ✅ Landing page shows first */}
+        <Route path="/" element={<Home />} />
+        {/* Main phishing checker */}
+        <Route path="/app" element={<MainApp />} />
+        {/* Any unknown URL redirects to Home */}
+        <Route path="*" element={<Navigate to="/" replace />} />
+      </Routes>
+    </Router>
   );
 }

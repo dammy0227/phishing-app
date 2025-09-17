@@ -1,12 +1,19 @@
 import React from "react";
 import { motion as Motion } from "framer-motion";
+import { useNavigate } from "react-router-dom";
 import "./Home.css";
 
-const Home = ({ onStart }) => {
+const Home = () => {
+  const navigate = useNavigate();
+
+  const handleStart = () => {
+    // Simply navigate to the app route
+    navigate("/app");
+  };
+
   return (
     <div className="home-container">
       <header className="hero">
-        {/* Icon animation */}
         <Motion.div
           className="hero-icon"
           initial={{ y: -50, opacity: 0 }}
@@ -27,7 +34,7 @@ const Home = ({ onStart }) => {
 
         <h1>Phishing URL Detector</h1>
         <p>Protect yourself from scams with our AI-powered detection tool.</p>
-        <button onClick={onStart}>Get Started</button>
+        <button onClick={handleStart}>Get Started</button>
       </header>
 
       <section className="how-it-works">
