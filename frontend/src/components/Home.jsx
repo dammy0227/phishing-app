@@ -7,8 +7,8 @@ const Home = () => {
   const navigate = useNavigate();
 
   const handleStart = () => {
-    localStorage.setItem("started", "true"); // optional: remember user
-    navigate("/app"); // redirect to main app
+    // ✅ Just navigate—no localStorage needed
+    navigate("/app");
   };
 
   return (
@@ -44,12 +44,10 @@ const Home = () => {
             <span>1️⃣</span>
             <p>Enter a suspicious URL</p>
           </div>
-
           <div className="step-card">
             <span>2️⃣</span>
             <p>AI scans it instantly</p>
           </div>
-
           <div className="step-card">
             <span>3️⃣</span>
             <p>Get phishing or safe result</p>

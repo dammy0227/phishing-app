@@ -1,6 +1,5 @@
-// src/App.jsx
-import { useState, useEffect } from "react";
 import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
+import { useState } from "react";
 import UrlInput from "./components/UrlInput";
 import ResultCard from "./components/ResultCard";
 import BatchUpload from "./components/BatchUpload";
@@ -9,9 +8,9 @@ import RecentChecks from "./components/RecentChecks";
 import StatsDashboard from "./components/StatsDashboard";
 import Home from "./components/Home";
 import { checkUrl, checkBatch } from "./services/api";
-import './App.css';
+import "./App.css";
 
-// Main App component for "/app" route
+/* ---------- Main App Page ("/app") ---------- */
 function MainApp() {
   const [result, setResult] = useState(null);
   const [batchResults, setBatchResults] = useState([]);
@@ -21,7 +20,7 @@ function MainApp() {
   const simulateProgress = async (steps = 4) => {
     const increment = 100 / steps;
     for (let i = 1; i <= steps; i++) {
-      await new Promise(r => setTimeout(r, 400));
+      await new Promise((r) => setTimeout(r, 400));
       setProgress(i * increment);
     }
   };
@@ -72,7 +71,9 @@ function MainApp() {
       <h2>Batch URL Check</h2>
       <BatchUpload onBatchCheck={handleBatchCheck} />
       {loading && <ProgressBar progress={progress} />}
-      {batchResults.map((r, idx) => <ResultCard key={idx} result={r} />)}
+      {batchResults.map((r, idx) => (
+        <ResultCard key={idx} result={r} />
+      ))}
 
       <RecentChecks />
       <StatsDashboard />
@@ -80,29 +81,18 @@ function MainApp() {
   );
 }
 
+/* ---------- App Router ---------- */
 export default function App() {
-  const [started, setStarted] = useState(false);
-  const [loaded, setLoaded] = useState(false);
-
-  // Load "started" from localStorage
-  useEffect(() => {
-    const saved = localStorage.getItem("started") === "true";
-    setStarted(saved);
-    setLoaded(true);
-  }, []);
-
-  if (!loaded) return null; // wait until localStorage is loaded
-
   return (
     <Router>
       <Routes>
-        {/* Home page */}
-        <Route path="/" element={started ? <Navigate to="/app" replace /> : <Home />} />
+        {/* ✅ Home always shows first */}
+        <Route path="/" element={<Home />} />
 
         {/* Main App */}
         <Route path="/app" element={<MainApp />} />
 
-        {/* Redirect unknown routes to Home */}
+        {/* Redirect unknown routes back to Home */}
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </Router>
