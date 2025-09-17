@@ -6,7 +6,7 @@ const Home = ({ onStart }) => {
   return (
     <div className="home-container">
       <header className="hero">
-        {/* Phishing icon */}
+        {/* Icon animation */}
         <Motion.div
           className="hero-icon"
           initial={{ y: -50, opacity: 0 }}
@@ -37,12 +37,10 @@ const Home = ({ onStart }) => {
             <span>1️⃣</span>
             <p>Enter a suspicious URL</p>
           </div>
-
           <div className="step-card">
             <span>2️⃣</span>
             <p>AI scans it instantly</p>
           </div>
-
           <div className="step-card">
             <span>3️⃣</span>
             <p>Get phishing or safe result</p>
@@ -52,14 +50,13 @@ const Home = ({ onStart }) => {
 
       <footer>
         <p>
-          © 2025 Your Name - Final Year Project <br />
-          This tool is designed to help users identify phishing websites quickly and safely.
-          <br /> Always be careful online and double-check URLs before entering sensitive
-          information.
+          © 2025 Your Name – Final Year Project <br />
+          This tool helps users quickly identify phishing websites.
+          <br /> Always double-check URLs before entering sensitive information.
         </p>
       </footer>
     </div>
   );
 };
 
-export default Home;  
+export default Home;
