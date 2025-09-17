@@ -10,30 +10,34 @@ import Home from "./components/Home";
 import './App.css';
 
 export default function App() {
-  // null = not yet loaded, false = Home not started, true = Home started
-  const [started, setStarted] = useState(null);
+  const [started, setStarted] = useState(false); // default false
+  const [loaded, setLoaded] = useState(false);   // track localStorage load
 
   const [result, setResult] = useState(null);
   const [batchResults, setBatchResults] = useState([]);
   const [loading, setLoading] = useState(false);
   const [progress, setProgress] = useState(0);
 
-  // Load started from localStorage on first mount
+  // Load started from localStorage once
   useEffect(() => {
     if (typeof window !== "undefined") {
       const saved = localStorage.getItem("started") === "true";
       setStarted(saved);
+      setLoaded(true);
     }
   }, []);
 
-  // Save started to localStorage whenever it changes
+  // Save to localStorage whenever started changes
   useEffect(() => {
-    if (started !== null) {
+    if (loaded) {
       localStorage.setItem("started", started);
     }
-  }, [started]);
+  }, [started, loaded]);
 
-  // Simulate progress
+  const handleStart = () => {
+    setStarted(true); // triggers main app view
+  };
+
   const simulateProgress = async (steps = 4) => {
     const increment = 100 / steps;
     for (let i = 1; i <= steps; i++) {
@@ -42,7 +46,6 @@ export default function App() {
     }
   };
 
-  // Single URL check
   const handleCheck = async (url) => {
     setResult(null);
     setLoading(true);
@@ -56,7 +59,6 @@ export default function App() {
     setProgress(100);
   };
 
-  // Batch URL check
   const handleBatchCheck = async (urls) => {
     setBatchResults([]);
     setLoading(true);
@@ -70,19 +72,13 @@ export default function App() {
     setProgress(100);
   };
 
-  // Handle starting the app from Home
-  const handleStart = () => {
-    setStarted(true);
-  };
+  // Wait until localStorage is loaded
+  if (!loaded) return null;
 
-  // Wait until started is loaded from localStorage
-  if (started === null) return null;
+  // Show Home if not started
+  if (!started) return <Home onStart={handleStart} />;
 
-  // Show Home page if not started
-  if (!started) {
-    return <Home onStart={handleStart} />;
-  }
-
+  // Main App
   return (
     <div className="app-container" style={{ maxWidth: "800px", margin: "0 auto", padding: "20px" }}>
       <h1>Phishing URL Checker</h1>
