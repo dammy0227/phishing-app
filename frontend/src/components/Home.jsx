@@ -1,19 +1,12 @@
 import React from "react";
 import { motion as Motion } from "framer-motion";
-import { useNavigate } from "react-router-dom";
 import "./Home.css";
 
-const Home = () => {
-  const navigate = useNavigate();
-
-  const handleStart = () => {
-    // ✅ Just navigate—no localStorage needed
-    navigate("/app");
-  };
-
+const Home = ({ onStart }) => {
   return (
     <div className="home-container">
       <header className="hero">
+        {/* Phishing icon */}
         <Motion.div
           className="hero-icon"
           initial={{ y: -50, opacity: 0 }}
@@ -34,7 +27,7 @@ const Home = () => {
 
         <h1>Phishing URL Detector</h1>
         <p>Protect yourself from scams with our AI-powered detection tool.</p>
-        <button onClick={handleStart}>Get Started</button>
+        <button onClick={onStart}>Get Started</button>
       </header>
 
       <section className="how-it-works">
@@ -44,10 +37,12 @@ const Home = () => {
             <span>1️⃣</span>
             <p>Enter a suspicious URL</p>
           </div>
+
           <div className="step-card">
             <span>2️⃣</span>
             <p>AI scans it instantly</p>
           </div>
+
           <div className="step-card">
             <span>3️⃣</span>
             <p>Get phishing or safe result</p>
@@ -67,4 +62,4 @@ const Home = () => {
   );
 };
 
-export default Home;
+export default Home;  
